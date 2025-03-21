@@ -3,8 +3,15 @@ import "./chat.vim"
 
 def ChatExample()
   echo chat.Chat([
-    chat.Dev("You are an automated assistant robot without personality. Follow the instructions and don't add any information unless requested. Code requests should only contain the code."),
-    chat.User("C function to calculate fibonacci."),
+    chat.Dev("You are an automated assistant robot without personality. Follow the instructions and don't add any information unless requested. Code requests should only contain the code. Respond with no formatting."),
+    chat.User("Pascal function to calculate fibonacci"),
+  ])
+enddef
+def ChatExample2()
+  echo chat.Chat([
+    chat.Dev("You are an automated assistant robot without personality. Follow the instructions and don't add any information unless requested. Code requests should only contain the code. Respond with no formatting."),
+    chat.User("Rewrite this to add a new scope named XYZ"),
+    chat.User("@TestValue(Scope.ABC)"),
   ])
 enddef
 
