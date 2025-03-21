@@ -1,7 +1,7 @@
 vim9script
 
 def Run(msgs: list<any>, tls: list<any>): string
-  const ind = { 
+  var ind = { 
     model: "gpt-4o-mini",
     messages: msgs,
   }
@@ -33,5 +33,23 @@ echo Run([{
   content: "You are an automated assistant robot without personality. You are dealing with a very capable human, so you don't need to explain to go into details of your reasoning."
 }, {
   role: "user",
-  content: "List files."
-}], [])
+  content: "List files in current directory."
+}], [{
+  type: "function",
+  function: {
+    name: "list_files",
+    description: "List files in a given directory. The tool don't recurse and it only works with directories. Result is empty if directory does not exist.",
+    strict: v:true,
+    parameters: {
+      type: "object",
+      required: [ "path" ],
+      additionalProperties: v:false,
+      properties: {
+        path: {
+          type: "string",
+          description: "Directory to list",
+        }
+      },
+    }
+  },
+}])
