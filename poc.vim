@@ -1,6 +1,6 @@
 vim9script
 
-def Run(msgs: list<any>, tls: list<any>): string
+def Call(msgs: list<any>, tls: list<any>): dict<any>
   var ind = { 
     model: "gpt-4o-mini",
     messages: msgs,
@@ -17,18 +17,33 @@ def Run(msgs: list<any>, tls: list<any>): string
     throw json.error.message
   endif
 
-  const choice = json.choices[0]
-  const msg = choice.message
-
-  if msg.content != v:null
-    return msg.content
-  endif
-
-  echom json
-  throw 'unexpected result'
+  return json.choices[0].message
 enddef
 
-echo Run([{
+def Agent(msgs: list<any>, tls: list<any>): string
+  while true
+    const msg = Call(msgs, tls)
+
+    if msg.content != v:null
+      return msg.content
+    endif
+
+    add(msgs, msg)
+
+    for tcall in msg['tool_calls']
+      const fn = tcall.function
+      const argz = json_decode(fn.arguments)
+      add(msgs, {
+        role: "tool",
+        tool_call_id: tcall.id,
+        content: json_encode("a, b, c"),
+      })
+    endfor
+  endwhile
+  throw 'unreachable'
+enddef
+
+echo Agent([{
   role: "developer",
   content: "You are an automated assistant robot without personality. You are dealing with a very capable human, so you don't need to explain to go into details of your reasoning."
 }, {
