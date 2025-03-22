@@ -5,6 +5,7 @@ export class Argument
   this.description: string
 endclass
 export class Function
+  this.Callback: func
   this.description: string
   this.parameters: dict<Argument>
 endclass
@@ -41,8 +42,8 @@ export def Convert(fns: dict<Function>): list<dict<any>>
   return res
 enddef
 
-export def Fn(desc: string, args: dict<Argument>): Function
-  return Function.new(desc, args)
+export def Fn(Callback: func, desc: string, args: dict<Argument>): Function
+  return Function.new(Callback, desc, args)
 enddef
 export def Arg(type: string, desc: string): Argument
   return Argument.new(type, desc)
