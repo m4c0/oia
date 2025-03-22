@@ -1,26 +1,7 @@
 vim9script
 import "./call.vim"
+import "./messages.vim" as msg
 
-class ChatMessage
-  this.role: string
-  this.content: string
-endclass
-export def Dev(lst: list<string>): ChatMessage
-  const msg = join(lst, "\n")
-  return ChatMessage.new('developer', msg)
-enddef
-export def User(lst: list<string>): ChatMessage
-  const msg = join(lst, "\n")
-  return ChatMessage.new('user', msg)
-enddef
-
-export def Chat(msgs: list<ChatMessage>): string
-  var args: list<dict<string>>
-  for msg in msgs
-    add(args, {
-      role: msg.role,
-      content: msg.content,
-    })
-  endfor
-  return call.Call(args, []).content
+export def Chat(msgs: list<msg.Message>): string
+  return call.Call(msg.Convert(msgs), []).content
 enddef
