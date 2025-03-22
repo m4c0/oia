@@ -41,3 +41,11 @@ export def Convert(fns: dict<Function>): list<dict<any>>
   return res
 enddef
 
+export def Fn(desc: string, args: dict<Argument>): Function
+  return Function.new(desc, args)
+enddef
+export def Arg(type: string, desc: string): Argument
+  return Argument.new(type, desc)
+enddef
+
+
