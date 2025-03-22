@@ -1,23 +1,23 @@
 vim9script
 
 export class Argument
-  this.name: string
   this.type: string
   this.description: string
 endclass
 export class Function
-  this.name: string
   this.description: string
-  this.parameters: list<Argument>
+  this.parameters: dict<Argument>
 endclass
-export def Convert(fns: list<Function>): list<dict<any>>
+export def Convert(fns: dict<Function>): list<dict<any>>
   var res = []
-  for fn in fns
+  for name in keys(fns)
+    const fn = fns[name]
     var params = {}
     var req = []
-    for param in fn.parameters
-      add(req, param.name)
-      params[param.name] = {
+    for pname in keys(fn.parameters)
+      const param = fn.parameters[pname]
+      add(req, pname)
+      params[pname] = {
         type: param.type,
         description: param.description,
       }
@@ -26,7 +26,7 @@ export def Convert(fns: list<Function>): list<dict<any>>
     add(res, {
       type: "function",
       function: {
-        name: fn.name,
+        name: name,
         description: fn.description,
         strict: v:true,
         parameters: {
