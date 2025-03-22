@@ -1,9 +1,11 @@
 vim9script
-import "./call.vim"
+import autoload "./call.vim"
+import autoload "./messages.vim"
 
 # TODO: actually call tools
 
-def Agent(msgs: list<any>, tls: list<any>): string
+def Agent(args: list<messages.Message>, tls: list<any>): string
+  var msgs: list<dict<any>> = messages.Convert(args)
   while true
     const msg = call.Call(msgs, tls)
 
