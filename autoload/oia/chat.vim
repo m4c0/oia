@@ -5,10 +5,12 @@ class ChatMessage
   this.role: string
   this.content: string
 endclass
-export def Dev(msg: string): ChatMessage
+export def Dev(lst: list<string>): ChatMessage
+  const msg = join(lst, "\n")
   return ChatMessage.new('developer', msg)
 enddef
-export def User(msg: string): ChatMessage
+export def User(lst: list<string>): ChatMessage
+  const msg = join(lst, "\n")
   return ChatMessage.new('user', msg)
 enddef
 
