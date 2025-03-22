@@ -1,46 +1,42 @@
 vim9script
-import "./chat.vim"
+import autoload "oia/call.vim"
+import autoload "oia/messages.vim"
+import autoload "oia/functions.vim"
 
-def ChatExample()
-  echo chat.Chat([
-    chat.Dev("You are an automated assistant robot without personality. Follow the instructions and don't add any information unless requested. Code requests should only contain the code. Respond with no formatting."),
-    chat.User("Pascal function to calculate fibonacci"),
-  ])
-enddef
-def ChatExample2()
-  echo chat.Chat([
-    chat.Dev("You are an automated assistant robot without personality. Follow the instructions and don't add any information unless requested. Code requests should only contain the code. Respond with no formatting."),
-    chat.User("Rewrite this to add a new scope named XYZ"),
-    chat.User("@TestValue(Scope.ABC)"),
-  ])
-enddef
+def Agent(margs: list<messages.Message>, targs: list<Function>): string
+  var msgs: list<dict<any>> = messages.Convert(margs)
+  var tls: list<dict<any>> = Convert(targs)
+  while true
+    const msg = call.Call(msgs, tls)
 
-ChatExample()
+    if msg.content != v:null
+      return msg.content
+    endif
+
+    add(msgs, msg)
+
+    for tcall in msg['tool_calls']
+      const fn = tcall.function
+      const argz = json_decode(fn.arguments)
+      add(msgs, {
+        role: "tool",
+        tool_call_id: tcall.id,
+        content: json_encode("a, b, c"),
+      })
+    endfor
+  endwhile
+  throw 'unreachable'
+enddef
 
 def AgentExample()
-  echo Agent([{
-    role: "developer",
-    content: "You are an automated assistant robot without personality. You are dealing with a very capable human, so you don't need to explain to go into details of your reasoning."
-  }, {
-    role: "user",
-    content: "List files in current directory."
-  }], [{
-    type: "function",
-    function: {
-      name: "list_files",
-      description: "List files in a given directory. The tool don't recurse and it only works with directories. Result is empty if directory does not exist.",
-      strict: v:true,
-      parameters: {
-        type: "object",
-        required: [ "path" ],
-        additionalProperties: v:false,
-        properties: {
-          path: {
-            type: "string",
-            description: "Directory to list",
-          }
-        },
-      }
-    },
-  }])
+  echo Agent([
+    messages.Dev(["You are an automated assistant robot without personality. You are dealing with a very capable human, so you don't need to explain to go into details of your reasoning."]),
+    messages.User(["List files in current directory."])
+  ], [
+    Function.new("list_files", "List files in a given directory. The tool don't recurse and it only works with directories. Result is empty if directory does not exist.", [
+      Argument.new("path", "string", "Directory to list"),
+    ]),
+  ])
 enddef
+
+AgentExample()
