@@ -1,7 +1,7 @@
 vim9script
 import autoload "oia/chat.vim"
 
-export def Work(prompt: string, line1: number, line2: number)
+export def Replace(prompt: string, line1: number, line2: number)
   const instructions = chat.Dev('
         \ You are a simple agent embedded as a code editor plugin.
         \ Your sole responsibility is to take a block of text and a prompt from the user and work on that
