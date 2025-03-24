@@ -1,9 +1,7 @@
 vim9script
 import autoload "./call.vim" as cll
-import autoload "./functions.vim"
-import autoload "./messages.vim"
 
-export def Agent(msgs: list<messages.Message>, tls: dict<functions.Function>): string
+export def Agent(msgs: list<any>, tls: dict<any>): string
   while true
     const msg = cll.Call(msgs, tls)
 
@@ -16,7 +14,7 @@ export def Agent(msgs: list<messages.Message>, tls: dict<functions.Function>): s
     for tcall in msg['tool_calls']
       const fn = tcall.function
       const argz = json_decode(fn.arguments)
-      const resp = call(targs[fn.name].Callback, [ argz ])
+      const resp = call(tls[fn.name].callback, [ argz ])
       add(msgs, {
         role: "tool",
         tool_call_id: tcall.id,

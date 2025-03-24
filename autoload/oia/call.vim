@@ -1,22 +1,6 @@
 vim9script
-import autoload './functions.vim'
-import autoload './messages.vim'
 
-def ConvertMsgs(msgs: list<any>): list<dict<string>>
-  var args: list<dict<string>>
-  for msg in msgs
-    if type(msg) == v:t_dict
-      add(args, msg)
-    else
-      add(args, {
-        role: msg.role,
-        content: msg.content,
-      })
-    endif
-  endfor
-  return args
-enddef
-export def ConvertFns(fns: dict<functions.Function>): list<dict<any>>
+export def ConvertFns(fns: dict<any>): list<dict<any>>
   var res = []
   for name in keys(fns)
     const fn = fns[name]
@@ -49,8 +33,7 @@ export def ConvertFns(fns: dict<functions.Function>): list<dict<any>>
   return res
 enddef
 
-export def Call(ms: list<any>, fns: dict<functions.Function>): dict<any>
-  const msgs = ConvertMsgs(ms)
+export def Call(msgs: list<any>, fns: dict<any>): dict<any>
   const tls = ConvertFns(fns)
 
   var ind = { 

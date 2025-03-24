@@ -1,15 +1,11 @@
 vim9script
 
-export class Message
-  var role: string
-  var content: string
-endclass
-export def Dev(lst: list<string>): Message
+export def Dev(lst: list<string>): dict<string>
   const msg = join(lst, "\n")
-  return Message.new('developer', msg)
+  return { role: 'developer', content: msg }
 enddef
-export def User(lst: list<string>): Message
+export def User(lst: list<string>): dict<string>
   const msg = join(lst, "\n")
-  return Message.new('user', msg)
+  return { role: 'user', content: msg }
 enddef
 
