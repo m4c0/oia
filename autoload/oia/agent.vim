@@ -3,9 +3,7 @@ import autoload "./call.vim" as cll
 import autoload "./functions.vim"
 import autoload "./messages.vim"
 
-export def Agent(margs: list<messages.Message>, targs: dict<functions.Function>): string
-  var msgs: list<dict<any>> = messages.Convert(margs)
-  var tls: list<dict<any>> = functions.Convert(targs)
+export def Agent(msgs: list<messages.Message>, tls: dict<functions.Function>): string
   while true
     const msg = cll.Call(msgs, tls)
 
