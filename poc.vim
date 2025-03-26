@@ -20,4 +20,12 @@ def AgentExample()
   })
 enddef
 
-AgentExample()
+def SearchTerms(query: string)
+  echo cll.Call([
+    messages.User([$"Extract relevant search terms from the following query:"]),
+    messages.User([query]),
+    messages.Dev(["Return them as a list of terms, without any formatting."]),
+  ], {}).content
+enddef
+
+SearchTerms("What are the benefits of using RAG?")
