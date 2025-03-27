@@ -37,8 +37,11 @@ def ChatCallback(text: string)
 enddef
 export def ConfigureChat()
   b:oia_chat_msgs = []
-  set buftype=prompt
-  set filetype=oia
+
+  setbufvar(bufnr(), '&buftype', 'nofile')
+  setbufvar(bufnr(), '&buftype', 'prompt')
+  setbufvar(bufnr(), '&filetype', 'oia')
+  setbufvar(bufnr(), '&swapfile', 0)
   prompt_setprompt(bufnr(), '> ')
   prompt_setcallback(bufnr(), ChatCallback)
   startinsert
