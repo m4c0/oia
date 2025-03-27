@@ -33,7 +33,7 @@ def ChatCallback(text: string)
   const res = cll.Call(b:oia_chat_msgs, {})
   add(b:oia_chat_msgs, res)
 
-  append(line('$'), res.content)
+  append(line('$'), split(res.content, '\n'))
 enddef
 export def ConfigureChat()
   b:oia_chat_msgs = []
