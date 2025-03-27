@@ -46,3 +46,6 @@ export def ConfigureChat()
   prompt_setcallback(bufnr(), ChatCallback)
   startinsert
 enddef
+export def LeaveChat()
+  setlocal nomodified
+enddef

@@ -4,6 +4,7 @@ import autoload "oia.vim"
 augroup Oia
   au!
   au BufNew,BufNewFile oia://chat/* oia.ConfigureChat()
+  au InsertLeave       oia://chat/* oia.LeaveChat()
 augroup END
 
 command! -nargs=1 -range=% Oreplace oia.Replace(<q-args>, <line1>, <line2>)
