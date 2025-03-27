@@ -43,9 +43,8 @@ export def Call(msgs: list<any>, fns: dict<any>): dict<any>
   if len(tls) > 0
     ind.tools = tls
   endif
-  const key = readfile(expand("~/.openai"))[0]
   const ctype = "-H 'Content-Type: application/json'"
-  const authz = $"-H 'Authorization: Bearer {key}'"
+  const authz = $"-H 'Authorization: Bearer {g:oia_openai_token}'"
   const curl = $"curl -X POST --data-binary @- -s {ctype} {authz} https://api.openai.com/v1/chat/completions"
   const json = json_decode(system(curl, json_encode(ind)))
   if has_key(json, 'error')
