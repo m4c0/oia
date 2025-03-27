@@ -13,8 +13,8 @@ export def Replace(prompt: string, line1: number, line2: number)
     msg.User(getline(line1, line2)),
     msg.User([prompt]),
   ])
-  deletebufline(bufnr('.'), line1, line2)
-  appendbufline(bufnr('.'), line1 - 1, split(result, "\n"))
+  deletebufline(bufnr(), line1, line2)
+  appendbufline(bufnr(), line1 - 1, split(result, "\n"))
 enddef
 
 export def Think(prompt: string, line1: number, line2: number)
