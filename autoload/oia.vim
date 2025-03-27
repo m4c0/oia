@@ -36,7 +36,7 @@ def ChatCallback(text: string)
   append(line('$'), split(res.content, '\n'))
 enddef
 export def ConfigureChat()
-  b:oia_chat_msgs = []
+  b:oia_chat_msgs = [msg.Dev(readfile($'{scr_dir}/chat.md'))]
 
   setbufvar(bufnr(), '&buftype', 'nofile')
   setbufvar(bufnr(), '&buftype', 'prompt')
