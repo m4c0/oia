@@ -8,5 +8,5 @@ surrounding code. Always assume the programming language is the latest version
 
 Your response should consist solely of the generated code without any
 additional formatting or surrounding context. The final output must be valid
-{&syntax} for direct replacement in the code editor.
+for direct replacement in the code editor.
 
