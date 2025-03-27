@@ -16,21 +16,21 @@ def QuoteSnippet(preamble: string, line1: any, line2: any): list<string>
 enddef
 
 export def Replace(prompt: string, line1: number, line2: number)
-  const result = chat.Chat([
+  const result = cll.Call([
     msg.Dev(readfile($'{scr_dir}/replace.md')),
     msg.Dev(QuoteSnippet("The entire file for reference:", 0, '$')),
     msg.User(QuoteSnippet(prompt, line1, line2)),
-  ])
+  ], {}).content
   deletebufline(bufnr(), line1, line2)
   appendbufline(bufnr(), line1 - 1, split(result, "\n"))
 enddef
 
 export def Think(prompt: string, line1: number, line2: number)
-  echo chat.Chat([
+  echo cll.Call([
     msg.Dev(readfile($'{scr_dir}/think.md')),
     msg.Dev(QuoteSnippet("The entire file for reference:", 0, '$')),
     msg.User(QuoteSnippet(prompt, line1, line2)),
-  ])
+  ], {}).content
 enddef
 
 def ChatCallback(text: string)
