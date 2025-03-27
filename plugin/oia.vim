@@ -1,10 +1,11 @@
 vim9script
 import autoload "oia.vim"
+import autoload "oia/chat.vim"
 
 augroup Oia
   au!
-  au BufNew,BufNewFile oia://chat/* oia.ConfigureChat()
-  au InsertLeave       oia://chat/* oia.LeaveChat()
+  au BufNew,BufNewFile oia://chat/* chat.Configure()
+  au InsertLeave       oia://chat/* chat.Leave()
 augroup END
 
 command! -nargs=1 -range=% Oreplace oia.Replace(<q-args>, <line1>, <line2>)

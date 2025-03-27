@@ -32,26 +32,3 @@ export def Think(prompt: string, line1: number, line2: number)
     msg.User(QuoteSnippet(prompt, line1, line2)),
   ], {}).content
 enddef
-
-def ChatCallback(text: string)
-  add(b:oia_chat_msgs, msg.User([text]))
-
-  const res = cll.Call(b:oia_chat_msgs, {})
-  add(b:oia_chat_msgs, res)
-
-  append(line('$'), split(res.content, '\n'))
-enddef
-export def ConfigureChat()
-  b:oia_chat_msgs = [msg.Dev(readfile($'{scr_dir}/chat.md'))]
-
-  setbufvar(bufnr(), '&buftype', 'nofile')
-  setbufvar(bufnr(), '&buftype', 'prompt')
-  setbufvar(bufnr(), '&filetype', 'oia')
-  setbufvar(bufnr(), '&swapfile', 0)
-  prompt_setprompt(bufnr(), '> ')
-  prompt_setcallback(bufnr(), ChatCallback)
-  startinsert
-enddef
-export def LeaveChat()
-  setlocal nomodified
-enddef
