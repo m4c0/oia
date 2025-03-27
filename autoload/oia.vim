@@ -1,4 +1,5 @@
 vim9script
+import autoload "oia/call.vim" as cll
 import autoload "oia/chat.vim"
 import autoload "oia/messages.vim" as msg
 
@@ -24,4 +25,21 @@ export def Think(prompt: string, line1: number, line2: number)
     msg.User(getline(line1, line2)),
     msg.User([prompt]),
   ])
+enddef
+
+def ChatCallback(text: string)
+  add(b:oia_chat_msgs, msg.User([text]))
+
+  const res = cll.Call(b:oia_chat_msgs, {})
+  add(b:oia_chat_msgs, res)
+
+  append(line('$'), res.content)
+enddef
+export def ConfigureChat()
+  b:oia_chat_msgs = []
+  set buftype=prompt
+  set filetype=oia
+  prompt_setprompt(bufnr(), '> ')
+  prompt_setcallback(bufnr(), ChatCallback)
+  startinsert
 enddef
