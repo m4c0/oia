@@ -25,10 +25,10 @@ def SearchTerms(argz: dict<string>): any
   ], {}).content
 enddef
 
-def AgentExample()
+def AgentExample(prompt: string)
   echo agent.Agent([
     messages.Dev(["You are an automated assistant robot. You don't need to explain to go into details of your reasoning. You are running on a file directory containing files with arbitrary names."]),
-    messages.User(["Reconstruct the OpenAPI call which will be made as a result of calling the AgentExample function of this proof-of-concept"])
+    messages.User([prompt])
   ], {
     list_files: fns.Fn(ListFiles, "List all files in the working environment directory.", {}),
     search_terms: fns.Fn(SearchTerms, "Extract relevant search terms for a given query", {
@@ -40,4 +40,4 @@ def AgentExample()
   })
 enddef
 
-AgentExample()
+AgentExample("Reconstruct the OpenAPI call which will be made as a result of calling the AgentExample function of this proof-of-concept")
