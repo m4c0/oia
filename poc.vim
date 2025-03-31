@@ -1,6 +1,7 @@
 vim9script
 import autoload "oia/agent.vim"
 import autoload "oia/call.vim" as cll
+import autoload "oia/image.vim"
 import autoload "oia/messages.vim"
 import autoload "oia/functions.vim" as fns
 
